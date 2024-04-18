@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CPSC 487/587</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lil-gui@0.19.1/dist/lil-gui.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.3.0/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quaternion@1.5.1/quaternion.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/numeric@1.2.6/numeric-1.2.6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stats.js@0.17.0/build/stats.min.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+              "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+              "three/": "https://unpkg.com/three@0.160.0/"
+            }
+        }
+    </script>
+</head>
+<body>
+<script type="module">
+    import {get_default_lil_gui, ThreeEngine, refresh_displays} from "../js/utils/utils_three.js";
+
+    // todo: create a visualization that demonstrates your knowledge of quaternions.  This is intentionally
+    // todo: open-ended.  Be as creative as you want, or feel free to recreate any of the visualizations
+    // todo: found in Section 3.3.
+    let settings = {
+        w:0,
+        x: 0.0,
+        y: 0.0,
+        z: 0.0,
+        point_size: .03,
+        dis: 0
+    };
+    let engine = ThreeEngine.new_default_3d();
+    let gui = get_default_lil_gui();
+    gui.add( settings, 'x', -1, 1);
+    gui.add( settings, 'z', -1, 1);
+    gui.add( settings, 'y', -1, 1);
+    gui.add( settings, 'w', -1, 1);
+
+    engine.animation_loop(()=> {
+        engine.draw_debug_vector([0,0,0], [settings.x, settings.y, settings.z],  0.01, 0.15, "green");
+        let length = Math.max(Math.abs(settings.w), 0.4);
+        engine.draw_debug_line([settings.x, settings.y, settings.z - length - 0.1], [settings.x, settings.y, settings.z + length + 0.1], false, 0.01, "black");
+        engine.draw_debug_sphere([settings.x, settings.y, settings.z + settings.w], 0.05, "blue");
+
+    });
+
+</script>
+</body>
+</html>
